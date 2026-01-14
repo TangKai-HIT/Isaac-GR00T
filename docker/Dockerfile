@@ -17,7 +17,11 @@ RUN cd /opt && git clone https://github.com/facebookresearch/pytorch3d.git
 RUN cd /opt/pytorch3d && pip install .
 
 COPY src/gr00t/ /workspace/gr00t/
-RUN cd /workspace/gr00t && uv sync && uv pip install -e .
+
+# 配置 uv 使用 NVIDIA PyPI 源下载 TensorRT
+ENV UV_EXTRA_INDEX_URL=https://pypi.nvidia.com
+
+RUN cd /workspace/gr00t && uv sync --extra-index-url https://pypi.nvidia.com && uv pip install -e . --extra-index-url https://pypi.nvidia.com
 
 RUN apt-get install -y libegl1
 RUN mkdir -p /usr/share/glvnd/egl_vendor.d && \
