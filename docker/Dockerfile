@@ -23,7 +23,7 @@ ENV UV_EXTRA_INDEX_URL=https://pypi.nvidia.com
 
 RUN cd /workspace/gr00t && uv sync --extra-index-url https://pypi.nvidia.com && uv pip install -e . --extra-index-url https://pypi.nvidia.com
 
-RUN apt-get install -y libegl1
+RUN apt-get update && apt-get install -y libegl1
 RUN mkdir -p /usr/share/glvnd/egl_vendor.d && \
     cat >/usr/share/glvnd/egl_vendor.d/10_nvidia.json <<'EOF'
 {

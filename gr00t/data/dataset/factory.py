@@ -8,6 +8,7 @@ from gr00t.data.dataset.sharded_single_step_dataset import ShardedSingleStepData
 from gr00t.data.embodiment_tags import EmbodimentTag
 from gr00t.data.interfaces import BaseProcessor
 from gr00t.data.stats import generate_rel_stats, generate_stats
+from gr00t.experiment.dist_utils import barrier
 
 
 class DatasetFactory:
@@ -42,7 +43,7 @@ class DatasetFactory:
                     if torch.distributed.get_rank() == 0:
                         generate_stats(dataset_path)
                         generate_rel_stats(dataset_path, EmbodimentTag(embodiment_tag))
-                    torch.distributed.barrier()
+                    barrier()
                 else:
                     generate_stats(dataset_path)
                     generate_rel_stats(dataset_path, EmbodimentTag(embodiment_tag))
